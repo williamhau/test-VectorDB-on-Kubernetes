@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgvector
+spec:
+  selector:
+    matchLabels:
+      app: pgvector
+  template:
+    metadata:
+      labels:
+        app: pgvector
+    spec:
+      containers:
+      - name: pgvector
+        image: localhost:32000/my-pgvector:v1
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: database
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgvector-service
+spec:
+  selector:
+    app: pgvector
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdrant
+spec:
+  selector:
+    matchLabels:
+      app: qdrant
+  template:
+    metadata:
+      labels:
+        app: qdrant
+    spec:
+      containers:
+      - name: qdrant
+        image: localhost:32000/my-qdrant:v1
+        ports:
+        - containerPort: 6333
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdrant-service
+spec:
+  selector:
+    app: qdrant
+  ports:
+    - protocol: TCP
+      port: 6333
+      targetPort: 6333

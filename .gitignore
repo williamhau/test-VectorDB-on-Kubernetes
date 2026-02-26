@@ -1,0 +1,29 @@
+# Environment variables
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Vector DB Storage
+chroma_db_store/
+qdrant_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

@@ -1,0 +1,5 @@
+docker compose -f docker-pgvector-compose.yml up -d
+docker exec -it pgvector-db psql -U postgres -d vectordb -c "CREATE EXTENSION IF NOT EXISTS vector;"
+docker exec -it pgvector-db psql -U postgres -d vectordb -c "SELECT '[1,2,3]'::vector <-> '[1,2,4]'::vector AS distance;"
+docker ps
+docker compose -f docker-pgvector-compose.yml down
