@@ -1,0 +1,15 @@
+services:
+  quant_db:
+    image: timescale/timescaledb-ha:pg17
+    container_name: hedge_fund_vector_db
+    environment:
+      - POSTGRES_DB=trading_db
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
